@@ -1,0 +1,23 @@
+name: security-ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  security-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - run: go test ./...
+      - run: go vet ./...
+      - run: go run ./cmd/securitygate -contract examples/safe-service.json
+      - name: Unsafe example must be rejected
+        run: |
+          if go run ./cmd/securitygate -contract examples/intentionally-unsafe-service.json; then
+            echo "unsafe contract unexpectedly passed"
+            exit 1
+          fi
