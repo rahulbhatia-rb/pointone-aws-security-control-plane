@@ -1,0 +1,20 @@
+{
+  "service": "billing-worker",
+  "environment": "production",
+  "account_isolated": true,
+  "permission_boundary": true,
+  "iam_wildcard_actions": [],
+  "trust": {"cross_account": true, "external_id_required": true},
+  "public_rds": false,
+  "public_admin_ingress": false,
+  "private_service_connectivity": true,
+  "restricted_egress": true,
+  "workload_identity": true,
+  "managed_secrets": true,
+  "kms_separated": true,
+  "immutable_audit_logs": true,
+  "lambda_reserved_concurrency": 50,
+  "rds_connection_budget": 120,
+  "incident_owner": "platform-security",
+  "queue": {"dlq": true, "max_receive_count": 5, "visibility_timeout_seconds": 120, "idempotent_worker": true}
+}
